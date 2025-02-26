@@ -9,7 +9,15 @@ module.exports = {
   ],
   presets: [require("nativewind/preset")],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#523AE4',
+        'bg-gray': '#F9FAFB'
+      }, 
+      fontFamily: {
+        roboto: ['Roboto'],
+      },
+    },
   },
   plugins: [],
 };
