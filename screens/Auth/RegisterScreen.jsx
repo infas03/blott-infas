@@ -8,8 +8,12 @@ import {
 } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import RegisterForm from "../../components/RegisterForm";
+import AsyncStorage from "@react-native-async-storage/async-storage"; 
+import { useNavigation } from "@react-navigation/native";
 
 export default function RegisterScreen() {
+  const navigation = useNavigation();
+
   const {
     control,
     handleSubmit,
@@ -22,8 +26,29 @@ export default function RegisterScreen() {
     mode: "onChange"
   });
 
-  const onSubmit = (data) => {
-    Alert.alert("Form Data", JSON.stringify(data));
+  const onSubmit = async (data) => {
+    try {
+      const currentUser = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+      };
+
+      await AsyncStorage.setItem(
+        "currentUser",
+        JSON.stringify(currentUser)
+      );
+
+      Alert.alert("Success", "Registered successfully!", [
+        {
+          text: "OK",
+          onPress: () => {
+            navigation.navigate('Notifications');
+          }
+        }
+      ]);
+    } catch (error) {
+      Alert.alert("Error", "Failed to save data to AsyncStorage");
+    }
   };
 
   return (

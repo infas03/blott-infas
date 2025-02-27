@@ -4,6 +4,10 @@
 node_modules/
 package-lock.json
 
+# builds
+/ios
+/android
+
 # Expo
 .expo/
 dist/
