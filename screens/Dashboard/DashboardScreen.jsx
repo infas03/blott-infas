@@ -13,6 +13,7 @@ import { getMarketNews } from "../../services/finnhub";
 import News from "../../components/News";
 import { Logout } from "iconsax-react-native";
 import { useNavigation } from "@react-navigation/native";
+import NewsCardSkeleton from "../../components/NewsCardSkeleton";
 
 export default function DashboardScreen() {
   const navigation = useNavigation();
@@ -53,36 +54,38 @@ export default function DashboardScreen() {
     getUserData();
   }, []);
 
-  console.log("user: ", user);
+  const fetchMarketNews = async () => {
+    setLoading(true);
+    try {
+      const data = await getMarketNews();
+      setNews(data);
+    } catch (err) {
+      setError("Failed to load market news");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchMarketNews = async () => {
-      try {
-        const data = await getMarketNews();
-        setNews(data);
-      } catch (err) {
-        setError("Failed to load market news");
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchMarketNews();
   }, []);
 
+  const handleRefresh = () => {
+    fetchMarketNews();
+  };
+
   const logout = async () => {
     try {
-      await AsyncStorage.removeItem('currentUser');
-      console.log('User data cleared.');
+      await AsyncStorage.removeItem("currentUser");
+      await AsyncStorage.removeItem("isRegistered");
+      console.log("User data cleared.");
 
       setIsRegistered(false);
 
-      Alert.alert('Logged Out', 'You have been logged out successfully.');
-
-      navigation.navigate('Auth');
+      Alert.alert("Logged Out", "You have been logged out successfully.");
     } catch (error) {
-      console.error('Error during logout:', error);
-      Alert.alert('Error', 'An error occurred while logging out.');
+      console.error("Error during logout:", error);
+      Alert.alert("Error", "An error occurred while logging out.");
     }
   };
 
@@ -93,25 +96,20 @@ export default function DashboardScreen() {
           <Text className="text-32px text-white font-black">
             Hey {user?.firstName || "Guest"}
           </Text>
-          <TouchableOpacity onPress={logout} >
+          <TouchableOpacity onPress={logout}>
             <Logout size="32" color="#523AE4" />
           </TouchableOpacity>
         </View>
 
         <View className="flex-1 mt-14">
-          <ScrollView>
-            <News news={news} />
-          </ScrollView>
+          {loading ? (
+            Array.from({ length: 8 }).map((_, index) => (
+              <NewsCardSkeleton key={index} />
+            ))
+          ) : (
+            <News news={news} refreshing={loading} onRefresh={handleRefresh} />
+          )}
         </View>
-
-        {/* <TouchableOpacity
-          onPress={clearAsyncStorage}
-          className="bg-red-500 p-3 rounded-lg mt-4"
-        >
-          <Text className="text-white text-center font-bold">
-            Clear AsyncStorage
-          </Text>
-        </TouchableOpacity> */}
       </View>
     </SafeAreaView>
   );

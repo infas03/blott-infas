@@ -1,8 +1,7 @@
-import { FlatList, Image, Text, TouchableOpacity, View } from "react-native";
+import { FlatList, RefreshControl, View } from "react-native";
 import NewsCard from "./NewsCard";
 
-export default function News({ news }) {
-  console.log('CHECK:', news)
+export default function News({ news, refreshing, onRefresh }) {
   return (
     <View className="flex-1">
       <FlatList
@@ -10,6 +9,14 @@ export default function News({ news }) {
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <NewsCard news={item} />}
         contentContainerStyle={{ flexGrow: 1 }}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={["#ffffff"]}
+            tintColor="#ffffff"
+          />
+        }
       />
     </View>
   );

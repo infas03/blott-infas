@@ -1,9 +1,8 @@
 import "./global.css";
 import * as SplashScreen from "expo-splash-screen";
 import { NavigationContainer } from "@react-navigation/native";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import AuthNavigator from "./navigations/AuthNavigator";
-import { Text } from "react-native";
 import { useFonts } from "expo-font";
 import AppNavigator from "./navigations/AppNavigator";
 import { AuthProvider, useAuth } from "./context/AuthContext";
@@ -12,7 +11,7 @@ SplashScreen.preventAutoHideAsync();
 
 function Main() {
   const { isRegistered } = useAuth();
-
+  console.log('isRegistered: ', isRegistered)
   return (
     <NavigationContainer>
       {isRegistered ? <AppNavigator /> : <AuthNavigator />}

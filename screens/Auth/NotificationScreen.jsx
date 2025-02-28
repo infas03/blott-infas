@@ -22,8 +22,6 @@ export default function NotificationsScreen() {
       if (status === 'granted') {
         await AsyncStorage.setItem('isRegistered', JSON.stringify(true));
         setIsRegistered(true);
-        navigation.navigate('Dashboard');
-
       } else {
         Alert.alert('Permissions denied', 'You have denied notification permissions.');
       }
