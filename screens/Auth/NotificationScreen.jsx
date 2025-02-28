@@ -6,14 +6,24 @@ import {
 } from "react-native";
 import * as Notifications from 'expo-notifications';
 import NotificationsBody from "../../components/NotificationsBody";
+import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAuth } from "../../context/AuthContext";
 
 export default function NotificationsScreen() {
+  const navigation = useNavigation();
+
+  const { setIsRegistered } = useAuth();
+
   const handleContinue = async () => {
     try {
       const { status } = await Notifications.requestPermissionsAsync();
 
       if (status === 'granted') {
-        Alert.alert('Permissions granted', 'You will now receive notifications.');
+        await AsyncStorage.setItem('isRegistered', JSON.stringify(true));
+        setIsRegistered(true);
+        navigation.navigate('Dashboard');
+
       } else {
         Alert.alert('Permissions denied', 'You have denied notification permissions.');
       }

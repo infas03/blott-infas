@@ -12,11 +12,17 @@ module.exports = {
     extend: {
       colors: {
         primary: '#523AE4',
-        'bg-gray': '#F9FAFB'
+        'bg-gray': '#F9FAFB',
+        'bg-blue': '#05021B'
       }, 
       fontFamily: {
-        roboto: ['Roboto'],
+        roboto: ['Roboto', "sans-serif"],
+        rubik: ["Rubik-Regular", "sans-serif"],
+        "rubik-italic": ["Rubik-Italic", "sans-serif"],
       },
+      fontSize:{
+        '32px': '32px',
+      }
     },
   },
   plugins: [],
