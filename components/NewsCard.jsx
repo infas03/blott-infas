@@ -1,18 +1,19 @@
+import React, { memo, useCallback } from "react";
 import { Image, Linking, Text, TouchableOpacity, View } from "react-native";
 import { convertTimestamp } from "../utils/helpers";
 
-export default function NewsCard({ news }) {
-  const handlePress = async () => {
+const NewsCard = memo(({ news }) => {
+  const handlePress = useCallback(async () => {
     try {
       if (news?.url) {
-        await Linking.openURL(news?.url);
+        await Linking.openURL(news.url);
       } else {
         console.warn("No URL provided for this news item.");
       }
     } catch (err) {
       console.error("Failed to open URL:", err);
     }
-  };
+  }, [news?.url]);
 
   return (
     <TouchableOpacity onPress={handlePress} className="w-full mb-4 flex flex-row  gap-x-6 items-center">
@@ -32,4 +33,7 @@ export default function NewsCard({ news }) {
       </View>
     </TouchableOpacity>
   );
-}
+});
+
+export default NewsCard;
+

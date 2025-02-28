@@ -1,8 +1,8 @@
 import { ArrowRight2 } from "iconsax-react-native";
-import React from "react";
+import React, { memo } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 
-export default function RegisterForm({ Controller, control, handleSubmit, onSubmit, errors, isValid }) {
+const RegisterForm = memo(({ Controller, control, handleSubmit, onSubmit, errors, isValid }) => {
   return (
     <View className="flex-1 justify-between items-center">
       <View className="w-full">
@@ -73,4 +73,6 @@ export default function RegisterForm({ Controller, control, handleSubmit, onSubm
       </View>
     </View>
   );
-}
+});
+
+export default RegisterForm;

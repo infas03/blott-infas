@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   Alert,
   ScrollView,
@@ -26,7 +26,7 @@ export default function RegisterScreen() {
     mode: "onChange"
   });
 
-  const onSubmit = async (data) => {
+  const onSubmit = useCallback(async (data) => {
     try {
       const currentUser = {
         firstName: data.firstName,
@@ -49,7 +49,7 @@ export default function RegisterScreen() {
     } catch (error) {
       Alert.alert("Error", "Failed to save data to AsyncStorage");
     }
-  };
+  });
 
   return (
     <SafeAreaView className="flex-1 bg-bg-gray">

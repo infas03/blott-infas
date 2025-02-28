@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
-export default function NotificationsBody({ onContinue }) {
+const NotificationsBody = memo(({ onContinue }) => {
   return (
     <View className="flex-1 justify-center items-center relative">
       <View className="flex justify-center items-center absolute top-1/4">
@@ -26,4 +27,6 @@ export default function NotificationsBody({ onContinue }) {
       </TouchableOpacity>
     </View>
   );
-}
+});
+
+export default NotificationsBody;

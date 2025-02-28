@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import {
   ScrollView,
   SafeAreaView,
@@ -15,7 +15,7 @@ export default function NotificationsScreen() {
 
   const { setIsRegistered } = useAuth();
 
-  const handleContinue = async () => {
+  const handleContinue = useCallback(async () => {
     try {
       const { status } = await Notifications.requestPermissionsAsync();
 
@@ -29,7 +29,7 @@ export default function NotificationsScreen() {
       console.error("Error requesting notification permissions: ", error);
       Alert.alert('Error', 'An error occurred while requesting permission.');
     }
-  };
+  });
 
   return (
     <SafeAreaView className="flex-1 bg-bg-gray">
